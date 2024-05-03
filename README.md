@@ -14,7 +14,8 @@ Installing dependencies you can do via `yarn` or `npm install`.
 Executing test: `yarn test`
 
 ## Exercise
-We have added some todos in our code. You can easily find them by looking for "TODO:" in the codebase. The idea of this exercise is that you mimic one of the Metamaze clients. They'll receive the `Input` json once their upload has been processed by Metamaze. They will interpret the json and update their system.
+We have added some todos in our code. You can easily find them by looking for "
+" in the codebase. The idea of this exercise is that you mimic one of the Metamaze clients. They'll receive the `Input` json once their upload has been processed by Metamaze. They will interpret the json and update their system.
 
 In this case, instead of updating the system, we will convert the Input json to another structure.
 
