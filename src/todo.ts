@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Annotation, Entity, Input } from './types/input';
 import { ConvertedAnnotation, ConvertedEntity, Output } from './types/output';
 
@@ -10,12 +11,17 @@ export const convertInput = (input: Input): Output => {
     const entities = document.entities.map(convertEntity).sort(sortEntities);
     // TODO: map the annotations to the new structure and sort them based on the property "index"
     // Make sure the nested children are also mapped and sorted
-    const annotations = document.annotations.map(convertAnnotation).sort(sortAnnotations);
+    const annotations = document.annotations
+      .filter(annotation => {
+        // Your filtering criteria here
+        // For example, let's filter annotations where the value property is 'someValue'
+        return annotation.refs && annotation.refs.length === 0;
+      }).map(convertAnnotation)
+      .sort(sortAnnotations);
     return { id: document.id, entities, annotations };
   });
 
-  console.log('documents output ', JSON.stringify(documents));
-
+  console.log("documents----", JSON.stringify(documents));
   return { documents };
 };
 
@@ -36,7 +42,6 @@ const convertEntity = (entity: Entity): ConvertedEntity => {
 
 // HINT: you probably need to pass extra argument(s) to this function to make it performant.
 const convertAnnotation = (annotation: Annotation, index: number ): ConvertedAnnotation => {
-
   const convertedAnnotation: ConvertedAnnotation = {
     id: annotation.id,
     entity: { 

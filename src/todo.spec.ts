@@ -10,7 +10,7 @@ describe('Todo', () => {
     const output = convertInput(inputJson as Input);
     expect(output.documents.length).to.equal(1);
     expect(output.documents[0].entities.length).to.equal(14);
-    //expect(output.documents[0].annotations.length).to.equal(9);
+    expect(output.documents[0].annotations.length).to.equal(9);
     //expect(output).to.deep.equal(outputJson);
   });
 
