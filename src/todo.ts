@@ -8,7 +8,13 @@ export const convertInput = (input: Input): Output => {
   const documents = input.documents.map((document) => {
     // TODO: map the entities to the new structure and sort them based on the property "name"
     // Make sure the nested children are also mapped and sorted
-    const entities = document.entities.map(convertEntity).sort(sortEntities);
+    //const entities = document.entities.map(convertEntity).sort(sortEntities);
+    const entities = document.entities.map(convertEntity).slice().sort((entityA, entityB) => {
+      return entityA.name.localeCompare(entityB.name);
+    });
+
+    console.log("enitties----", JSON.stringify(entities));
+
     // TODO: map the annotations to the new structure and sort them based on the property "index"
     // Make sure the nested children are also mapped and sorted
     const annotations = document.annotations
@@ -21,7 +27,6 @@ export const convertInput = (input: Input): Output => {
     return { id: document.id, entities, annotations };
   });
 
-  console.log("documents----", JSON.stringify(documents));
   return { documents };
 };
 
