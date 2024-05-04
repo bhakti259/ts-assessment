@@ -16,6 +16,8 @@ export interface ConvertedEntity {
   type: EntityType;
   class: EntityClass;
   children: ConvertedEntity[]; // pay attention to this property
+  refs: string[]; // Add the 'refs' property here
+  threshold: number
 }
 
 export interface ConvertedAnnotation {

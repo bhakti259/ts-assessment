@@ -13,8 +13,6 @@ export const convertInput = (input: Input): Output => {
       return entityA.name.localeCompare(entityB.name);
     });
 
-    console.log("enitties----", JSON.stringify(entities));
-
     // TODO: map the annotations to the new structure and sort them based on the property "index"
     // Make sure the nested children are also mapped and sorted
     const annotations = document.annotations
@@ -38,7 +36,9 @@ const convertEntity = (entity: Entity): ConvertedEntity => {
     name: entity.name,
     children: [],
     type: entity.type,
-    class: entity.class 
+    class: entity.class,
+    refs: [],
+    threshold: 0
   }
   return convertedEntity;
    
