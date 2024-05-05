@@ -16,11 +16,8 @@ export const convertInput = (input: Input): Output => {
     // TODO: map the annotations to the new structure and sort them based on the property "index"
     // Make sure the nested children are also mapped and sorted
     const annotations = document.annotations
-      .filter(annotation => {
-        // Your filtering criteria here
-        // For example, let's filter annotations where the value property is 'someValue'
-        return annotation.refs && annotation.refs.length === 0;
-      }).map(convertAnnotation)
+      .filter(annotation => annotation.refs && annotation.refs.length === 0)
+      .map((annotation, index) => convertAnnotation(annotation, index, entities))
       .sort(sortAnnotations);
     return { id: document.id, entities, annotations };
   });
@@ -46,20 +43,22 @@ const convertEntity = (entity: Entity): ConvertedEntity => {
 };
 
 // HINT: you probably need to pass extra argument(s) to this function to make it performant.
-const convertAnnotation = (annotation: Annotation, index: number ): ConvertedAnnotation => {
+const convertAnnotation = (annotation: Annotation, index: number, entities: Entity[]): ConvertedAnnotation => {
+  const entity = entities.find(entity => entity.id === annotation.entityId);
+  if (!entity) {
+      throw new Error(`Entity with ID ${annotation.entityId} not found`);
+  }
   const convertedAnnotation: ConvertedAnnotation = {
-    id: annotation.id,
-    entity: { 
-      id: annotation.entityId,
-      name: ''
-    },
-    value: annotation.value,
-    index: index,
-    children: []
+      id: annotation.id,
+      entity: {
+          id: annotation.entityId,
+          name: entity.name
+      },
+      value: annotation.value,
+      index: index,
+      children: []
   }
   return convertedAnnotation;
-
- // throw new Error('Not implemented');
 };
 
 const sortEntities = (entityA: ConvertedEntity, entityB: ConvertedEntity) => {

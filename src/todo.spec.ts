@@ -11,6 +11,7 @@ describe('Todo', () => {
     expect(output.documents.length).to.equal(1);
     expect(output.documents[0].entities.length).to.equal(14);
     expect(output.documents[0].annotations.length).to.equal(9);
+    console.log('output: ', JSON.stringify(output));
     //expect(output).to.deep.equal(outputJson);
   });
 
