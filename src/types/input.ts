@@ -53,7 +53,19 @@ export interface Entity {
   type: EntityType;
   class: EntityClass;
   refs: Array<Entity['id']>; // refs is a list of parent entity ids. "article details" has 1 ref, namely the "article" entityId.
+  children?: Entity[];
 }
+
+/* interface Entity {
+  id: string;
+  name: string;
+  type: string;
+  class: string;
+  threshold?: number;
+  imageType?: string | null;
+  refs?: string[];
+  children?: Entity[];
+} */
 
 export enum EntityType {
   REGULAR = 'REGULAR',

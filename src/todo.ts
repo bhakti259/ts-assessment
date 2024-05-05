@@ -8,7 +8,35 @@ export const convertInput = (input: Input): Output => {
   const documents = input.documents.map((document) => {
     // TODO: map the entities to the new structure and sort them based on the property "name"
     // Make sure the nested children are also mapped and sorted
-    //const entities = document.entities.map(convertEntity).sort(sortEntities);
+    const inputEntities: Entity[] = document.entities;
+
+    const getNestedEntities = (entities: Entity[]): Entity[] => {
+      const entityMap = _.keyBy(entities, 'id'); // Create a map of entities by id for quick access
+      const topLevelEntities: Entity[] = [];
+  
+      entities.forEach(entity => {
+          if (!entity.refs || entity.refs.length === 0) {
+              // If an entity has no refs, it's a top-level entity
+              topLevelEntities.push(entity);
+          } else {
+              // If an entity has refs, it's a child entity
+              entity.refs.forEach(refId => {
+                  const parentEntity = entityMap[refId];
+                  if (parentEntity) {
+                      // Add the child entity to its parent's children array
+                      if (!parentEntity.children) {
+                          parentEntity.children = [];
+                      }
+                      parentEntity.children.push(entity);
+                  }
+              });
+          }
+      });
+  
+      return topLevelEntities;
+  };
+
+  const nestedEntities = getNestedEntities(inputEntities);
     const entities = document.entities.map(convertEntity).slice().sort((entityA, entityB) => {
       return entityA.name.localeCompare(entityB.name);
     });
